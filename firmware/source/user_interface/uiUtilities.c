@@ -1800,7 +1800,7 @@ void announceCSSCode(uint16_t code, CSSTypes_t cssType, bool inverted)
 	}
 
 	voicePromptsInit();
-	prepareCSSCodeAnnouncement(cssType, code, inverted);
+	prepareCSSCodeAnnouncement(code, cssType, inverted);
 	voicePromptsPlay();
 }
 
