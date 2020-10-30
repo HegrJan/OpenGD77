@@ -197,7 +197,12 @@ void decreasePowerLevel(void);
 void increasePowerLevel(void);
 
 void announceChar(char ch);
+
+void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType, bool inverted);
 void announceCSSCode(uint16_t code, CSSTypes_t cssType, bool inverted);
+#if defined(PLATFORM_GD77S)
+void announceCSSCodes(void);
+#endif
 
 void announceItem(voicePromptItem_t item, audioPromptThreshold_t immediateAnnouceThreshold);
 void playNextSettingSequence(void);

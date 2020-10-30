@@ -2047,12 +2047,15 @@ static void buildSpeechChannelDetailsForGD77S()
 	codeplugUtilConvertBufToString(channelScreenChannelData.name, buf, 16);
 	voicePromptsAppendString(buf);
 
-	announceContactNameTgOrPc();
-
 	if (trxGetMode() == RADIO_MODE_DIGITAL)
 	{
+		announceContactNameTgOrPc();
 		announceTS();
 		announceCC();
+	}
+	else // analog
+	{
+		announceCSSCodes();
 	}
 }
 
