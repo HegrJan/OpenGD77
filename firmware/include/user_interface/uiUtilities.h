@@ -198,8 +198,8 @@ void increasePowerLevel(void);
 
 void announceChar(char ch);
 
-void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType, bool inverted);
-void announceCSSCode(uint16_t code, CSSTypes_t cssType, bool inverted);
+void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType);
+void announceCSSCode(uint16_t code, CSSTypes_t cssType);
 #if defined(PLATFORM_GD77S)
 void announceCSSCodes(void);
 #endif

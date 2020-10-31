@@ -785,7 +785,7 @@ static void handleEvent(uiEvent_t *ev)
 				{
 					cssIncrementFromEvent(ev, &tmpChannel.rxTone, &RxCSSIndex, &RxCSSType);
 					trxSetRxCSS(tmpChannel.rxTone);
-					announceCSSCode(tmpChannel.rxTone, RxCSSType, (tmpChannel.rxTone & CODEPLUG_DCS_INVERTED_MASK));
+					announceCSSCode(tmpChannel.rxTone, RxCSSType);
 					allowedToSpeakUpdate = false;
 				}
 				break;
@@ -793,7 +793,7 @@ static void handleEvent(uiEvent_t *ev)
 				if (tmpChannel.chMode == RADIO_MODE_ANALOG)
 				{
 					cssIncrementFromEvent(ev, &tmpChannel.txTone, &TxCSSIndex, &TxCSSType);
-					announceCSSCode(tmpChannel.txTone, TxCSSType, (tmpChannel.txTone & CODEPLUG_DCS_INVERTED_MASK));
+					announceCSSCode(tmpChannel.txTone, TxCSSType);
 					allowedToSpeakUpdate = false;
 				}
 				break;
@@ -886,7 +886,7 @@ static void handleEvent(uiEvent_t *ev)
 				{
 					cssDecrementFromEvent(ev, &tmpChannel.rxTone, &RxCSSIndex, &RxCSSType);
 					trxSetRxCSS(tmpChannel.rxTone);
-					announceCSSCode(tmpChannel.rxTone, RxCSSType, (tmpChannel.rxTone & CODEPLUG_DCS_INVERTED_MASK));
+					announceCSSCode(tmpChannel.rxTone, RxCSSType);
 					allowedToSpeakUpdate = false;
 				}
 				break;
@@ -894,7 +894,7 @@ static void handleEvent(uiEvent_t *ev)
 				if (tmpChannel.chMode == RADIO_MODE_ANALOG)
 				{
 					cssDecrementFromEvent(ev, &tmpChannel.txTone, &TxCSSIndex, &TxCSSType);
-					announceCSSCode(tmpChannel.txTone, TxCSSType, (tmpChannel.txTone & CODEPLUG_DCS_INVERTED_MASK));
+					announceCSSCode(tmpChannel.txTone, TxCSSType);
 					allowedToSpeakUpdate = false;
 				}
 				break;

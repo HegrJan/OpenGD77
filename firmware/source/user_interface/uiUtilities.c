@@ -1769,7 +1769,7 @@ void announceChar(char ch)
 	voicePromptsPlay();
 }
 
-void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType, bool inverted)
+void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType)
 {
 	static const int BUFFER_LEN = 17;
 	char buf[BUFFER_LEN];
@@ -1786,13 +1786,14 @@ void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType, bool inverted
 			break;
 		case CSS_DCS:
 		case CSS_DCS_INVERTED:
-			snprintf(buf, BUFFER_LEN, "D%03o%c", code & 0777, inverted ? 'I' : 'N');
+			snprintf(buf, BUFFER_LEN, "D%03o%c", code & 0777,
+					(code & CODEPLUG_DCS_INVERTED_MASK) ? 'I' : 'N');
 			voicePromptsAppendString(buf);
 			break;
 	}
 }
 
-void announceCSSCode(uint16_t code, CSSTypes_t cssType, bool inverted)
+void announceCSSCode(uint16_t code, CSSTypes_t cssType)
 {
 	if (nonVolatileSettings.audioPromptMode < AUDIO_PROMPT_MODE_VOICE_LEVEL_1)
 	{
@@ -1800,55 +1801,42 @@ void announceCSSCode(uint16_t code, CSSTypes_t cssType, bool inverted)
 	}
 
 	voicePromptsInit();
-	prepareCSSCodeAnnouncement(code, cssType, inverted);
+	prepareCSSCodeAnnouncement(code, cssType);
 	voicePromptsPlay();
 }
 
 #if defined(PLATFORM_GD77S)
+void announceCSSTypeAndCode(uint16_t code)
+{
+	CSSTypes_t cssType = CSS_NONE;
+	if (codeplugChannelToneIsCTCSS(code))
+	{
+		cssType = CSS_CTCSS;
+		voicePromptsAppendString("CTCSS ");
+	}
+	else if (codeplugChannelToneIsDCS(code))
+	{
+		cssType = CSS_DCS;
+		voicePromptsAppendString("DCS ");
+	}
+
+	prepareCSSCodeAnnouncement(code, cssType);
+}
+
 void announceCSSCodes(void)
 {
-	// announce RX CSS, if any
 	uint16_t code = channelScreenChannelData.rxTone;
-	CSSTypes_t cssType = CSS_NONE;
-	bool inverted;
-
 	if ((nonVolatileSettings.analogFilterLevel > ANALOG_FILTER_NONE) && (code != CODEPLUG_CSS_NONE))
 	{
 		voicePromptsAppendString(" RX");
-		if (codeplugChannelToneIsCTCSS(code))
-		{
-			cssType = CSS_CTCSS;
-			voicePromptsAppendString("CTCSS ");
-		}
-		else if (codeplugChannelToneIsDCS(code))
-		{
-			inverted = code & CODEPLUG_DCS_INVERTED_MASK;
-			cssType = inverted ? CSS_DCS_INVERTED : CSS_DCS;
-			voicePromptsAppendString("DCS ");
-		}
-
-		prepareCSSCodeAnnouncement(code, cssType, inverted);
+		announceCSSTypeAndCode(code);
 	}
 
-	// announce TX CSS, if any
 	code = channelScreenChannelData.txTone;
-	cssType = CSS_NONE;
 	if (code != CODEPLUG_CSS_NONE)
 	{
 		voicePromptsAppendString(" TX");
-		if (codeplugChannelToneIsCTCSS(code))
-		{
-			cssType = CSS_CTCSS;
-			voicePromptsAppendString("CTCSS ");
-		}
-		else if (codeplugChannelToneIsDCS(code))
-		{
-			inverted = code & CODEPLUG_DCS_INVERTED_MASK;
-			cssType = inverted ? CSS_DCS_INVERTED : CSS_DCS;
-			voicePromptsAppendString("DCS ");
-		}
-
-		prepareCSSCodeAnnouncement(code, cssType, inverted);
+		announceCSSTypeAndCode(code);
 	}
 }
 #endif
