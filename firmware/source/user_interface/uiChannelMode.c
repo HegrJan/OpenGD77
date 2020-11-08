@@ -2055,7 +2055,7 @@ static void buildSpeechChannelDetailsForGD77S()
 	}
 	else // analog
 	{
-		announceCSSCodes();
+		announceRxTxCSSCodesIfSet();
 	}
 }
 

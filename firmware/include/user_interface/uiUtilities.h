@@ -201,7 +201,7 @@ void announceChar(char ch);
 void prepareCSSCodeAnnouncement(uint16_t code, CSSTypes_t cssType);
 void announceCSSCode(uint16_t code, CSSTypes_t cssType);
 #if defined(PLATFORM_GD77S)
-void announceCSSCodes(void);
+void announceRxTxCSSCodesIfSet(void);
 #endif
 
 void announceItem(voicePromptItem_t item, audioPromptThreshold_t immediateAnnouceThreshold);

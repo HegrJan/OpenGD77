@@ -1806,7 +1806,7 @@ void announceCSSCode(uint16_t code, CSSTypes_t cssType)
 }
 
 #if defined(PLATFORM_GD77S)
-void announceCSSTypeAndCode(uint16_t code)
+void announceCSSTypeAndCodeIfSet(uint16_t code)
 {
 	CSSTypes_t cssType = CSS_NONE;
 	if (codeplugChannelToneIsCTCSS(code))
@@ -1814,7 +1814,7 @@ void announceCSSTypeAndCode(uint16_t code)
 		cssType = CSS_CTCSS;
 		voicePromptsAppendString("CTCSS ");
 	}
-	else if (codeplugChannelToneIsDCS(code))
+	else if (codeplugChannelToneIsDCS(code)) // both normal and inverted
 	{
 		cssType = CSS_DCS;
 		voicePromptsAppendString("DCS ");
@@ -1823,20 +1823,20 @@ void announceCSSTypeAndCode(uint16_t code)
 	prepareCSSCodeAnnouncement(code, cssType);
 }
 
-void announceCSSCodes(void)
+void announceRxTxCSSCodesIfSet(void)
 {
 	uint16_t code = channelScreenChannelData.rxTone;
 	if ((nonVolatileSettings.analogFilterLevel > ANALOG_FILTER_NONE) && (code != CODEPLUG_CSS_NONE))
 	{
 		voicePromptsAppendString(" RX");
-		announceCSSTypeAndCode(code);
+		announceCSSTypeAndCodeIfSet(code);
 	}
 
 	code = channelScreenChannelData.txTone;
 	if (code != CODEPLUG_CSS_NONE)
 	{
 		voicePromptsAppendString(" TX");
-		announceCSSTypeAndCode(code);
+		announceCSSTypeAndCodeIfSet(code);
 	}
 }
 #endif
